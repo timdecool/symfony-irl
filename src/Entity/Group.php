@@ -38,6 +38,9 @@ class Group
     #[ORM\ManyToMany(targetEntity: Availability::class, mappedBy: 'relatedGroup')]
     private Collection $availabilities;
 
+    #[ORM\ManyToOne]
+    private ?Picture $picture = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -175,6 +178,18 @@ class Group
         if ($this->availabilities->removeElement($availability)) {
             $availability->removeRelatedGroup($this);
         }
+
+        return $this;
+    }
+
+    public function getPicture(): ?Picture
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?Picture $picture): static
+    {
+        $this->picture = $picture;
 
         return $this;
     }

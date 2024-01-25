@@ -2,6 +2,8 @@
 
 namespace App\EventListener;
 
+use App\Entity\Event;
+use App\Entity\Group;
 use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\PictureRepository;
@@ -37,6 +39,16 @@ final class InsertListener
             $profile = new Profile();
             $profile->setPicture($this->pictureRepository->findOneBy(['id' => 1]));
             $entity->setProfile($profile);
+        }
+
+        if($entity instanceOf Group)
+        {
+            $entity->setIsActive(true);
+        }
+
+        if($entity instanceOf Event)
+        {
+            $entity->setUser($this->security->getUser());
         }
     }
 }

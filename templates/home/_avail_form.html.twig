@@ -1,0 +1,14 @@
+{{ form_start(availForm) }}
+<div class="flex flex-col gap-2">
+    {{ form_label(availForm.beginAt, 'De :')}}
+    {{ form_widget(availForm.beginAt) }}
+
+    {{ form_label(availForm.endAt, 'À :')}}
+    {{ form_widget(availForm.endAt) }}
+
+    {{ form_label(availForm.relatedGroup, 'Pour quels groupes ?')}}
+    {{ form_widget(availForm.relatedGroup) }}
+
+    <button class="btn text-white bg-emerald-700 hover:bg-emerald-800 cursor-pointer focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800">Ajouter</button>
+</div>
+{{ form_end(availForm) }}

@@ -21,6 +21,20 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
+    
+    public function findOwnGroups($id) {
+        return $this->createQueryBuilder('g')
+            ->addSelect('picture')
+            ->addSelect('users')
+            ->leftJoin('g.users', 'users')
+            ->leftJoin('g.picture', 'picture')
+            ->where('users.id = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Group[] Returns an array of Group objects
 //     */

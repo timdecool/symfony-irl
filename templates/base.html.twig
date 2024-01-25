@@ -18,13 +18,16 @@
     </head>
     <body>
         {% include "partials/header/_navbar.html.twig" %}
+        <div class="container p-5">
         {% block body %}
         {% endblock %}
+        </div>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
             <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+            <script src="../path/to/flowbite/dist/datepicker.js"></script>
         {% endblock %}
 
     </body>
