@@ -8,13 +8,24 @@
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
+        <style>
+            body {
+                background-color: #fffffd;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        {% include "partials/header/_navbar.html.twig" %}
+        {% block body %}
+        {% endblock %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
             <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
         {% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
+
     </body>
 </html>

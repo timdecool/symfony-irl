@@ -4,6 +4,8 @@ namespace App\EventListener;
 
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Repository\PictureRepository;
+use App\Repository\ProfileRepository;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
@@ -15,11 +17,11 @@ final class InsertListener
 {
     
     public function __construct(
-        private Security $security
+        private Security $security,
+        private PictureRepository $pictureRepository
         )
         {
         }
-        
         
     #[AsEventListener(event: PrePersistEventArgs::class)]
     public function prePersist($event): void
@@ -31,7 +33,9 @@ final class InsertListener
         if($entity instanceOf User) 
         {
             $entity->setIsActive(true);
+            $entity->setRoles(["ROLE_USER"]);
             $profile = new Profile();
+            $profile->setPicture($this->pictureRepository->findOneBy(['id' => 1]));
             $entity->setProfile($profile);
         }
     }

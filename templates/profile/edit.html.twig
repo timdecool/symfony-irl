@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IRL - Votre profil{% endblock %}
+
+{% block body %}
+
+    <div class="container mx-auto p-5">
+    <h1 class="text-xl mb-3">Votre profil</h1>
+    {{ include('profile/_form.html.twig', {'button_label': 'Update'}) }}
+
+    {% if app.user.profile.updatedAt %}
+        <p class="text-sm text-gray-400 py-2">Dernière modification le {{ app.user.profile.updatedAt|date('d M Y à H:i')}}.</p>
+    {% endif %}
+    
+    </div>
+
+{% endblock %}
