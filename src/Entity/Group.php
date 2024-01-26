@@ -41,6 +41,9 @@ class Group
     #[ORM\ManyToOne]
     private ?Picture $picture = null;
 
+    #[ORM\ManyToOne(inversedBy: 'createdGroups')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -190,6 +193,18 @@ class Group
     public function setPicture(?Picture $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

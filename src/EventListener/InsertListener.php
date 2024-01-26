@@ -2,6 +2,7 @@
 
 namespace App\EventListener;
 
+use App\Entity\Availability;
 use App\Entity\Event;
 use App\Entity\Group;
 use App\Entity\Profile;
@@ -46,9 +47,14 @@ final class InsertListener
             $entity->setIsActive(true);
         }
 
-        if($entity instanceOf Event)
+        if($entity instanceOf Event || $entity instanceOf Availability || $entity instanceOf Group)
         {
             $entity->setUser($this->security->getUser());
+        }
+
+        if($entity instanceOf Group) 
+        {
+            $entity->addUser($this->security->getUser());
         }
     }
 }

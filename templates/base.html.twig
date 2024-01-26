@@ -1,34 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
 
-        <style>
-            body {
-                background-color: #fffffd;
-            }
+		<style>
+			body {
+				background-color: #fffffd;
+			}
+		</style>
 
-        </style>
+	</head>
+	<body>
+		{% include "partials/header/_navbar.html.twig" %}
+		<div class="container p-5"> {% block body %}{% endblock %}
+			</div>
 
-    </head>
-    <body>
-        {% include "partials/header/_navbar.html.twig" %}
-        <div class="container p-5">
-        {% block body %}
-        {% endblock %}
-        </div>
+			{% block javascripts %}
+				{{ encore_entry_script_tags('app') }}
+				{% block importmap %}
+					{{ importmap('app') }}
+				{% endblock %}
+				<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+				<script src="../path/to/flowbite/dist/datepicker.js"></script>
+				<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/index.global.min.js" integrity="sha256-dHUNnePy81fXq4D/wfu7cPsEIP7zl6MvLb84jtZf+UY=" crossorigin="anonymous"></script>
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-            <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-            <script src="../path/to/flowbite/dist/datepicker.js"></script>
-        {% endblock %}
+				<script type="text/javascript">
+					document.addEventListener('DOMContentLoaded', () => {
+                    const calendarEl = document.getElementById('calendar-holder');
 
-    </body>
-</html>
+                    const calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'timeGridWeek',
+                        titleFormat: {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        },
+                        scrollTime: Date.now(),
+                        weekends: true,
+                        firstDay: 1,
+                        editable: true,
+                        selectable: true,
+                        height: 650,
+                        expandRows: false,
+                        allDaySlot: false,
+                        nowIndicator: true,
+                        headerToolbar: {
+                            start: 'title',
+                            center: '',
+                            end: 'today prev next'
+                        },
+                        eventSources: [
+                            {
+                                url: "{{ path('fc_load_events') }}",
+                                method: "POST",
+                                extraParams: {
+                                    filters: JSON.stringify({})
+                                },
+                                failure: () => { 
+                                    // alert("There was an error while fetching FullCalendar!");
+                                }
+                            },
+                        ],
+                        timeZone: 'UTC'
+                    });
+                    calendar.render();
+                    });
+                    </script>
+
+                    {% endblock %}
+
+		</body>
+	</html>

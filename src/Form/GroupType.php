@@ -17,11 +17,6 @@ class GroupType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('users', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-                'multiple' => true,
-            ])
             ->add('picture', EntityType::class, [
                 'class' => Picture::class,
                 'choice_label' => 'source',

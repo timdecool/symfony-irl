@@ -62,6 +62,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Availability::class)]
     private Collection $availabilities;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Group::class)]
+    private Collection $createdGroups;
+
     public function __construct()
     {
         $this->groups = new ArrayCollection();
@@ -69,6 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->events = new ArrayCollection();
         $this->messages = new ArrayCollection();
         $this->availabilities = new ArrayCollection();
+        $this->createdGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -344,6 +348,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($availability->getUser() === $this) {
                 $availability->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Group>
+     */
+    public function getCreatedGroups(): Collection
+    {
+        return $this->createdGroups;
+    }
+
+    public function addCreatedGroup(Group $createdGroup): static
+    {
+        if (!$this->createdGroups->contains($createdGroup)) {
+            $this->createdGroups->add($createdGroup);
+            $createdGroup->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedGroup(Group $createdGroup): static
+    {
+        if ($this->createdGroups->removeElement($createdGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($createdGroup->getUser() === $this) {
+                $createdGroup->setUser(null);
             }
         }
 

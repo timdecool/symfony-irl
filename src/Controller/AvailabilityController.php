@@ -23,6 +23,18 @@ class AvailabilityController extends AbstractController
         ]);
     }
 
+    #[Route('/group/{id}', name: 'app_availability_group', methods: ['GET'])]
+    public function groupAvail(AvailabilityRepository $availabilityRepository, GroupRepository $groupRepository, $id): Response
+    {
+
+        $groups = $groupRepository->findOneBy(['id' => $id]);
+        $availabilities = $availabilityRepository->findGroupAvailabilities($groups);
+        
+        return $this->render('availability/index.html.twig', [
+            'availabilities' => $availabilities
+        ]);
+    }
+
     #[Route('/new', name: 'app_availability_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request, 
