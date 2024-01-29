@@ -69,6 +69,10 @@
 					const userPar = document.createElement('p');
 					userPar.innerText = `${user.firstName} ${user.lastName}`;
 					userBlock.appendChild(userPar);
+					const addButton = document.createElement('div');
+					addButton.innerText = "Envoyer invitation";
+					userBlock.appendChild(addButton);
+					userBlock.addEventListener('click', sendGroupRequest);
 				}
 			}
 			else

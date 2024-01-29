@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class UserController extends AbstractController
 {
+
     #[Route('/user', name: 'app_user')]
     public function index(): Response
     {
@@ -20,7 +21,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/search', name: 'app_user_search', methods: ["POST", "GET"])]
+    #[Route('api/user/search', name: 'app_user_search', methods: ["POST", "GET"])]
     public function search(
         UserRepository $userRepository,
         SerializerInterface $serializer,
@@ -34,6 +35,7 @@ class UserController extends AbstractController
         foreach($matchedUsers as $mu) {
             $user = [];
             $user['id'] = $mu->getId();
+            $user['email'] = $mu->getEmail();
             $user["firstName"] = $mu->getProfile()->getFirstName();
             $user["lastName"] = $mu->getProfile()->getLastName();
             $user["picture"] = $mu->getProfile()->getPicture()->getSource();
